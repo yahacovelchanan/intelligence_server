@@ -84,6 +84,14 @@ const deleteReport = async(req,res) =>{
             var serch_in=false
             for(let i=0;i<reports.length;i++){
                 if(reports[i].id===req.params.id){
+                    var report_for_delete=reports[i]
+                    const data =await fs.readFile("./data/agents.json", "utf8");
+            const agents=await JSON.parse(data)
+            for(let i=0;i<agents.length;i++){
+                if(agents[i].id===report_for_delete.agentId){
+                    agents[i].reportsCount-=1
+                }
+            }
                     reports.splice(i,1)
                     serch_in=true
                 }}
